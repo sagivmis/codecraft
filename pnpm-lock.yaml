@@ -97,6 +97,9 @@ importers:
 
   packages/content:
     dependencies:
+      '@codecraft/runtime':
+        specifier: workspace:*
+        version: link:../runtime
       '@codecraft/schema':
         specifier: workspace:*
         version: link:../schema
