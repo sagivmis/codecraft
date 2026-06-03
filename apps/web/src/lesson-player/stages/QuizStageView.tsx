@@ -8,9 +8,7 @@ export function QuizStageView({ lesson, progress, onAdvance, onBack }: StageView
   const previouslyCompleted = progress.status === 'completed';
 
   const [result, setResult] = useState<{ correct: number; total: number } | null>(
-    previouslyCompleted
-      ? { correct: quiz.questions.length, total: quiz.questions.length }
-      : null,
+    previouslyCompleted ? { correct: quiz.questions.length, total: quiz.questions.length } : null,
   );
 
   return (

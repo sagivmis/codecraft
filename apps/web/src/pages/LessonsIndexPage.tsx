@@ -27,9 +27,7 @@ export function LessonsIndexPage() {
             ← Home
           </Link>
           <h1 className="mt-1 text-3xl font-bold tracking-tight md:text-4xl">Lessons</h1>
-          <p className="text-[var(--cc-fg-muted)]">
-            Pick a lesson to start. More are on the way.
-          </p>
+          <p className="text-[var(--cc-fg-muted)]">Pick a lesson to start. More are on the way.</p>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <span className="text-[var(--cc-fg-muted)]">Track:</span>

@@ -2,11 +2,7 @@ import { eq } from 'drizzle-orm';
 import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-import type {
-  LessonProgressDTO,
-  ProgressPayloadDTO,
-  StreakDTO,
-} from '@codecraft/schema';
+import type { LessonProgressDTO, ProgressPayloadDTO, StreakDTO } from '@codecraft/schema';
 
 import { mergeLessonProgress, type Repo } from './repo.js';
 import { lessonProgress, streaks, users } from './schema.js';
@@ -89,11 +85,7 @@ export class PostgresRepo implements Repo {
   }
 
   async getStreak(userId: string): Promise<StreakDTO | null> {
-    const [row] = await this.db
-      .select()
-      .from(streaks)
-      .where(eq(streaks.userId, userId))
-      .limit(1);
+    const [row] = await this.db.select().from(streaks).where(eq(streaks.userId, userId)).limit(1);
     if (!row) return null;
     return { lastActiveDay: row.lastActiveDay, current: row.current, longest: row.longest };
   }
@@ -125,4 +117,3 @@ export class PostgresRepo implements Repo {
     return merged;
   }
 }
-

@@ -103,9 +103,7 @@ function buildMatchers<T>(actual: T, negated: boolean): Matchers<T> {
     },
     toThrow(messageMatch) {
       if (typeof actual !== 'function') {
-        throw new AssertionError(
-          `expect(...).toThrow() needs a function, got ${fmt(actual)}.`,
-        );
+        throw new AssertionError(`expect(...).toThrow() needs a function, got ${fmt(actual)}.`);
       }
       let caught: unknown;
       try {
@@ -120,12 +118,10 @@ function buildMatchers<T>(actual: T, negated: boolean): Matchers<T> {
         matches =
           messageMatch instanceof RegExp ? messageMatch.test(msg) : msg.includes(messageMatch);
       }
-      check(
-        matches,
-        () =>
-          messageMatch === undefined
-            ? `Expected function to throw.`
-            : `Expected function to throw matching ${fmt(messageMatch)}.`,
+      check(matches, () =>
+        messageMatch === undefined
+          ? `Expected function to throw.`
+          : `Expected function to throw matching ${fmt(messageMatch)}.`,
       );
     },
     /** Lazy: built only when accessed so we don't pre-allocate inverse matchers. */
@@ -170,7 +166,8 @@ function deepEqual(a: unknown, b: unknown): boolean {
   }
 
   if (a instanceof Date && b instanceof Date) return a.getTime() === b.getTime();
-  if (a instanceof RegExp && b instanceof RegExp) return a.source === b.source && a.flags === b.flags;
+  if (a instanceof RegExp && b instanceof RegExp)
+    return a.source === b.source && a.flags === b.flags;
 
   const aKeys = Object.keys(a as object).sort();
   const bKeys = Object.keys(b as object).sort();

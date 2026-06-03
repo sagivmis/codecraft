@@ -68,7 +68,8 @@ const arraysLesson: Lesson = defineLesson({
       ],
       realWorldSnippet: {
         code: `for (const post of feed) {\n  renderPost(post);\n}`,
-        caption: 'This is how a social feed turns a list of posts into the rectangles you see on screen.',
+        caption:
+          'This is how a social feed turns a list of posts into the rectangles you see on screen.',
       },
     },
     quiz: {
@@ -101,8 +102,7 @@ const arraysLesson: Lesson = defineLesson({
           prompt: 'What does this print?',
           code: `const xs = [10, 20, 30];\nlet total = 0;\nfor (const x of xs) {\n  total = total + x;\n}\nconsole.log(total);`,
           expected: '60',
-          explanation:
-            'The loop adds each value (10 + 20 + 30) into total, ending with 60.',
+          explanation: 'The loop adds each value (10 + 20 + 30) into total, ending with 60.',
         },
       ],
     },
@@ -116,12 +116,14 @@ const arraysLesson: Lesson = defineLesson({
         {
           matcher: 'normalized',
           value: `const fruits = ['apple', 'banana', 'cherry'];\nconsole.log(fruits[0]);`,
-          feedback: 'That works! Any valid index (0, 1, or 2) is fine - the bug was the out-of-range `3`.',
+          feedback:
+            'That works! Any valid index (0, 1, or 2) is fine - the bug was the out-of-range `3`.',
         },
         {
           matcher: 'normalized',
           value: `const fruits = ['apple', 'banana', 'cherry'];\nconsole.log(fruits[1]);`,
-          feedback: 'That works! Any valid index (0, 1, or 2) is fine - the bug was the out-of-range `3`.',
+          feedback:
+            'That works! Any valid index (0, 1, or 2) is fine - the bug was the out-of-range `3`.',
         },
       ],
       hints: [

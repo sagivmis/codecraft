@@ -4,13 +4,7 @@ import type { Lesson } from '@codecraft/schema';
  * The ordered list of stage keys a student moves through.
  * Use kebab-case in URLs; the conversions are centralized in `stageRouting.ts`.
  */
-export const STAGE_KEYS = [
-  'hook',
-  'walkthrough',
-  'quiz',
-  'fix-the-bug',
-  'implement',
-] as const;
+export const STAGE_KEYS = ['hook', 'walkthrough', 'quiz', 'fix-the-bug', 'implement'] as const;
 
 export type StageKey = (typeof STAGE_KEYS)[number];
 

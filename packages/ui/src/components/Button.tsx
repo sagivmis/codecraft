@@ -17,13 +17,11 @@ const baseClasses =
   'disabled:opacity-50 disabled:cursor-not-allowed';
 
 const variantClasses: Record<Variant, string> = {
-  primary:
-    'bg-[var(--cc-primary)] text-[var(--cc-primary-fg)] hover:bg-[var(--cc-primary-hover)]',
+  primary: 'bg-[var(--cc-primary)] text-[var(--cc-primary-fg)] hover:bg-[var(--cc-primary-hover)]',
   secondary:
     'bg-[var(--cc-surface)] text-[var(--cc-fg)] border border-[var(--cc-border)] hover:bg-[var(--cc-surface-hover)]',
   ghost: 'text-[var(--cc-fg)] hover:bg-[var(--cc-surface-hover)]',
-  danger:
-    'bg-[var(--cc-danger)] text-[var(--cc-danger-fg)] hover:bg-[var(--cc-danger-hover)]',
+  danger: 'bg-[var(--cc-danger)] text-[var(--cc-danger-fg)] hover:bg-[var(--cc-danger-hover)]',
 };
 
 const sizeClasses: Record<Size, string> = {

@@ -35,7 +35,8 @@ const objectsLesson: Lesson = defineLesson({
           id: 's1',
           revealUpToLine: 1,
           highlights: [{ startLine: 1, endLine: 1 }],
-          explanation: 'Curly braces `{ }` create an object. We store it in a variable called `student`.',
+          explanation:
+            'Curly braces `{ }` create an object. We store it in a variable called `student`.',
         },
         {
           id: 's2',
@@ -62,13 +63,13 @@ const objectsLesson: Lesson = defineLesson({
           id: 's5',
           revealUpToLine: 8,
           highlights: [{ startLine: 8, endLine: 8 }],
-          explanation:
-            'You can change a value by assigning to it. Now `student.age` is 15.',
+          explanation: 'You can change a value by assigning to it. Now `student.age` is 15.',
         },
       ],
       realWorldSnippet: {
         code: `const user = {\n  id: 42,\n  username: 'sagiv05',\n  avatarUrl: '/photos/42.jpg',\n};`,
-        caption: 'Every "user" object behind every login screen on the web looks something like this.',
+        caption:
+          'Every "user" object behind every login screen on the web looks something like this.',
       },
     },
     quiz: {
@@ -84,7 +85,8 @@ const objectsLesson: Lesson = defineLesson({
             { id: 'c', label: '{ }' },
           ],
           correctOptionId: 'c',
-          explanation: '`{ }` makes an object. `[ ]` makes an array. `( )` is for function calls and grouping.',
+          explanation:
+            '`{ }` makes an object. `[ ]` makes an array. `( )` is for function calls and grouping.',
         },
         {
           kind: 'whatPrints',
@@ -148,8 +150,7 @@ const objectsLesson: Lesson = defineLesson({
         {
           id: 't3',
           description: 'reads from the object, not from globals',
-          code:
-            `let name = 'WRONG'; let age = 99; expect(greet({ name: 'Lia', age: 11 })).toBe('Hi, my name is Lia and I am 11')`,
+          code: `let name = 'WRONG'; let age = 99; expect(greet({ name: 'Lia', age: 11 })).toBe('Hi, my name is Lia and I am 11')`,
           failureHint:
             'Make sure you use `person.name` and `person.age` - not a bare `name` or `age` variable.',
           hidden: false,
@@ -158,7 +159,7 @@ const objectsLesson: Lesson = defineLesson({
       hints: [
         'Use `person.name` and `person.age` inside the function.',
         'Build the result string with `+` to glue pieces together.',
-        "`return \"Hi, my name is \" + person.name + \" and I am \" + person.age` does it.",
+        '`return "Hi, my name is " + person.name + " and I am " + person.age` does it.',
       ],
     },
   },

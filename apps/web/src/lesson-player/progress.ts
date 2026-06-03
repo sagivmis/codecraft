@@ -60,28 +60,25 @@ export function useLessonProgress(lessonId: string) {
     setProgress(next);
   }, []);
 
-  const updateStage = useCallback(
-    (stage: StageKey, patch: Partial<StageProgress>) => {
-      setProgress((current) => {
-        const previousStage = current.stages[stage];
-        const updated: LessonProgress = {
-          ...current,
-          startedAt: current.startedAt ?? Date.now(),
-          stages: {
-            ...current.stages,
-            [stage]: { ...previousStage, ...patch },
-          },
-        };
-        const allComplete = STAGE_KEYS.every((k) => updated.stages[k].status === 'completed');
-        if (allComplete && !updated.completedAt) {
-          updated.completedAt = Date.now();
-        }
-        writeToStorage(updated);
-        return updated;
-      });
-    },
-    [],
-  );
+  const updateStage = useCallback((stage: StageKey, patch: Partial<StageProgress>) => {
+    setProgress((current) => {
+      const previousStage = current.stages[stage];
+      const updated: LessonProgress = {
+        ...current,
+        startedAt: current.startedAt ?? Date.now(),
+        stages: {
+          ...current.stages,
+          [stage]: { ...previousStage, ...patch },
+        },
+      };
+      const allComplete = STAGE_KEYS.every((k) => updated.stages[k].status === 'completed');
+      if (allComplete && !updated.completedAt) {
+        updated.completedAt = Date.now();
+      }
+      writeToStorage(updated);
+      return updated;
+    });
+  }, []);
 
   const markStage = useCallback(
     (stage: StageKey, status: StageStatus, meta?: Record<string, unknown>) => {

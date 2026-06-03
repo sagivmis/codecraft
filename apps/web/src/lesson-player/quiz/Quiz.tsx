@@ -67,26 +67,12 @@ export function Quiz({ quiz, onComplete }: QuizProps) {
       </AnimatePresence>
 
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          disabled={idx === 0}
-          onClick={() => setIdx(idx - 1)}
-        >
+        <Button variant="ghost" size="sm" disabled={idx === 0} onClick={() => setIdx(idx - 1)}>
           ← Prev
         </Button>
         <div className="flex-1" />
-        <Button
-          variant="primary"
-          size="md"
-          disabled={!answered}
-          onClick={next}
-        >
-          {idx === total - 1
-            ? allAnswered
-              ? 'Finish quiz'
-              : 'Next →'
-            : 'Next →'}
+        <Button variant="primary" size="md" disabled={!answered} onClick={next}>
+          {idx === total - 1 ? (allAnswered ? 'Finish quiz' : 'Next →') : 'Next →'}
         </Button>
       </div>
     </div>
@@ -144,8 +130,12 @@ function MultipleChoiceView({
                   'flex w-full items-center gap-3 rounded-lg border px-3 py-3 text-left transition-colors',
                   'border-[var(--cc-border)] bg-[var(--cc-surface)]',
                   !answer && 'hover:bg-[var(--cc-surface-hover)]',
-                  revealOutcome && isCorrect && 'border-[var(--cc-success)] bg-[var(--cc-success)]/10',
-                  revealOutcome && isSelected && !isCorrect &&
+                  revealOutcome &&
+                    isCorrect &&
+                    'border-[var(--cc-success)] bg-[var(--cc-success)]/10',
+                  revealOutcome &&
+                    isSelected &&
+                    !isCorrect &&
                     'border-[var(--cc-danger)] bg-[var(--cc-danger)]/10',
                 )}
               >
@@ -155,7 +145,9 @@ function MultipleChoiceView({
                     isSelected
                       ? 'border-[var(--cc-primary)] bg-[var(--cc-primary)] text-[var(--cc-primary-fg)]'
                       : 'border-[var(--cc-border)] text-[var(--cc-fg-muted)]',
-                    revealOutcome && isCorrect && 'border-[var(--cc-success)] bg-[var(--cc-success)] text-white',
+                    revealOutcome &&
+                      isCorrect &&
+                      'border-[var(--cc-success)] bg-[var(--cc-success)] text-white',
                   )}
                 >
                   {revealOutcome && isCorrect ? '✓' : isSelected ? '●' : ''}

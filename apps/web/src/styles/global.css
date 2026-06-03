@@ -5,8 +5,7 @@
  * The CSS variables remain the source of truth - the values below are just
  * fallback defaults Tailwind sees at build time. */
 @theme {
-  --font-sans:
-    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 }
 

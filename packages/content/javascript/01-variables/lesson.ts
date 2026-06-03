@@ -46,8 +46,7 @@ const variablesLesson: Lesson = defineLesson({
           id: 's2',
           revealUpToLine: 2,
           highlights: [{ startLine: 2, endLine: 2 }],
-          explanation:
-            '`let` is used when the value will change later. We start `score` at zero.',
+          explanation: '`let` is used when the value will change later. We start `score` at zero.',
         },
         {
           id: 's3',
@@ -126,7 +125,8 @@ const variablesLesson: Lesson = defineLesson({
           id: 't1',
           description: 'greeting equals "hello"',
           code: `expect(greeting).toBe('hello')`,
-          failureHint: 'Make sure `greeting` is exactly the string "hello" (with lowercase letters).',
+          failureHint:
+            'Make sure `greeting` is exactly the string "hello" (with lowercase letters).',
           hidden: false,
         },
         {

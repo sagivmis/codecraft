@@ -27,7 +27,10 @@ export function HintTree({ hints, onReveal }: HintTreeProps) {
     <div className="rounded-lg border border-[var(--cc-border)] bg-[var(--cc-surface)] p-3">
       <div className="flex items-center gap-2">
         <span className="text-sm font-semibold">
-          Hints <span className="text-[var(--cc-fg-muted)]">({revealed}/{hints.length})</span>
+          Hints{' '}
+          <span className="text-[var(--cc-fg-muted)]">
+            ({revealed}/{hints.length})
+          </span>
         </span>
         <div className="flex-1" />
         {hasMore && (
@@ -59,10 +62,7 @@ export function HintTree({ hints, onReveal }: HintTreeProps) {
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className={cn(
-                  'text-sm',
-                  i === revealed - 1 && 'font-medium',
-                )}
+                className={cn('text-sm', i === revealed - 1 && 'font-medium')}
               >
                 {hint}
               </motion.li>

@@ -137,7 +137,10 @@ function LessonComplete({ lessonTitle, lessonId }: { lessonTitle: string; lesson
         <Button variant="primary" onClick={() => navigate('/lessons')}>
           Pick the next lesson
         </Button>
-        <Button variant="secondary" onClick={() => navigate(`/lessons/${lessonId}/${STAGE_KEYS[0]}`)}>
+        <Button
+          variant="secondary"
+          onClick={() => navigate(`/lessons/${lessonId}/${STAGE_KEYS[0]}`)}
+        >
           Replay this lesson
         </Button>
       </div>

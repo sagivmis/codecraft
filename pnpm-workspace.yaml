@@ -1,6 +1,6 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
 
 allowBuilds:
   esbuild: set this to true or false
@@ -10,5 +10,5 @@ strictDepBuilds: false
 
 onlyBuiltDependencies:
   - esbuild
-  - "@tailwindcss/oxide"
+  - '@tailwindcss/oxide'
   - sharp

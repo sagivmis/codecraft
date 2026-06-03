@@ -1,8 +1,6 @@
 import type { FixTheBugStage } from '@codecraft/schema';
 
-export type CheckResult =
-  | { kind: 'pass'; feedback?: string }
-  | { kind: 'fail'; reason: string };
+export type CheckResult = { kind: 'pass'; feedback?: string } | { kind: 'fail'; reason: string };
 
 /**
  * Deterministic equivalence check used by Stage 2.
@@ -17,10 +15,7 @@ export type CheckResult =
  * (students shouldn't fail because of an extra space) without becoming a full
  * AST equivalence engine.
  */
-export function checkSolution(
-  studentCode: string,
-  stage: FixTheBugStage,
-): CheckResult {
+export function checkSolution(studentCode: string, stage: FixTheBugStage): CheckResult {
   /* If the student didn't change anything, fail immediately with a clearer
    * message than "exact mismatch". */
   if (studentCode === stage.buggyCode) {
@@ -64,16 +59,18 @@ function compare(
 }
 
 export function normalize(code: string): string {
-  return code
-    /* Single-line comments + block comments are stripped for comparison. */
-    .replace(/\/\/.*$/gm, '')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    /* Quote style unified to double-quotes for string literals (only the
-     * simple non-escaped case - good enough for early lessons). */
-    .replace(/'([^'\\]*)'/g, '"$1"')
-    /* Collapse whitespace runs to a single space, strip line trailing semis. */
-    .split('\n')
-    .map((line) => line.replace(/\s+/g, ' ').replace(/;\s*$/, '').trim())
-    .filter((line) => line.length > 0)
-    .join('\n');
+  return (
+    code
+      /* Single-line comments + block comments are stripped for comparison. */
+      .replace(/\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      /* Quote style unified to double-quotes for string literals (only the
+       * simple non-escaped case - good enough for early lessons). */
+      .replace(/'([^'\\]*)'/g, '"$1"')
+      /* Collapse whitespace runs to a single space, strip line trailing semis. */
+      .split('\n')
+      .map((line) => line.replace(/\s+/g, ' ').replace(/;\s*$/, '').trim())
+      .filter((line) => line.length > 0)
+      .join('\n')
+  );
 }

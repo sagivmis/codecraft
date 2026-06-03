@@ -71,7 +71,10 @@ export const QuizQuestionSchema = z.discriminatedUnion('kind', [
     id: z.string().min(1),
     prompt: z.string().min(1),
     code: z.string().optional(),
-    options: z.array(z.object({ id: z.string(), label: z.string() })).min(2).max(5),
+    options: z
+      .array(z.object({ id: z.string(), label: z.string() }))
+      .min(2)
+      .max(5),
     correctOptionId: z.string(),
     explanation: z.string().min(1),
   }),

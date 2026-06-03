@@ -146,7 +146,8 @@ function TestResults({
               {outcome.consoleLog && outcome.consoleLog.length > 0 && (
                 <details className="mt-1">
                   <summary className="cursor-pointer text-xs text-[var(--cc-fg-muted)]">
-                    console output ({outcome.consoleLog.length} line{outcome.consoleLog.length === 1 ? '' : 's'})
+                    console output ({outcome.consoleLog.length} line
+                    {outcome.consoleLog.length === 1 ? '' : 's'})
                   </summary>
                   <pre className="mt-1 whitespace-pre-wrap font-mono text-xs">
                     {outcome.consoleLog.join('\n')}

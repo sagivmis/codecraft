@@ -115,9 +115,7 @@ function EditModeView({
           Reset
         </Button>
         {attempts > 0 && (
-          <span className="text-xs text-[var(--cc-fg-muted)]">
-            Attempt {attempts}
-          </span>
+          <span className="text-xs text-[var(--cc-fg-muted)]">Attempt {attempts}</span>
         )}
       </div>
 

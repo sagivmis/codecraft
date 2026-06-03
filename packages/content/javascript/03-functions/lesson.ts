@@ -49,7 +49,8 @@ const functionsLesson: Lesson = defineLesson({
           id: 's3',
           revealUpToLine: 3,
           highlights: [{ startLine: 3, endLine: 3 }],
-          explanation: 'The closing brace ends the function body. The function is defined but has not yet been called.',
+          explanation:
+            'The closing brace ends the function body. The function is defined but has not yet been called.',
         },
         {
           id: 's4',
@@ -91,7 +92,8 @@ const functionsLesson: Lesson = defineLesson({
           prompt: 'What does this print?',
           code: `function greet(name) {\n  return 'Hi, ' + name;\n}\nconsole.log(greet('Sam'));`,
           expected: 'Hi, Sam',
-          explanation: 'We call `greet` with the argument "Sam", which gets concatenated and returned.',
+          explanation:
+            'We call `greet` with the argument "Sam", which gets concatenated and returned.',
         },
       ],
     },

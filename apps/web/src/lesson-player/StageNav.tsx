@@ -29,7 +29,8 @@ export function StageNav({ current, progress, onJump }: StageNavProps) {
               'border-[var(--cc-border)] bg-[var(--cc-surface)]',
               'disabled:cursor-not-allowed disabled:opacity-50',
               !isCurrent && 'hover:bg-[var(--cc-surface-hover)]',
-              isCurrent && 'border-[var(--cc-primary)] bg-[var(--cc-primary)] text-[var(--cc-primary-fg)]',
+              isCurrent &&
+                'border-[var(--cc-primary)] bg-[var(--cc-primary)] text-[var(--cc-primary-fg)]',
               isCompleted && !isCurrent && 'border-[var(--cc-success)] text-[var(--cc-success)]',
               isAttempted && !isCurrent && 'border-[var(--cc-fg-muted)] text-[var(--cc-fg-muted)]',
             )}

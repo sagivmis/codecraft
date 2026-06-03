@@ -102,7 +102,8 @@ const conditionalsLesson: Lesson = defineLesson({
             { id: 'c', label: 'an error' },
           ],
           correctOptionId: 'b',
-          explanation: '`&&` (AND) is only true when BOTH sides are true. Since one is false, the whole thing is false.',
+          explanation:
+            '`&&` (AND) is only true when BOTH sides are true. Since one is false, the whole thing is false.',
         },
       ],
     },
@@ -153,8 +154,7 @@ const conditionalsLesson: Lesson = defineLesson({
           id: 't3',
           description: 'canVote(18) is "yes" (boundary)',
           code: `expect(canVote(18)).toBe('yes')`,
-          failureHint:
-            'Watch the boundary. 18 should be "yes" - use >= not >.',
+          failureHint: 'Watch the boundary. 18 should be "yes" - use >= not >.',
           hidden: false,
         },
       ],

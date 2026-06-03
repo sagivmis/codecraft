@@ -180,10 +180,7 @@ function HighlightRect({ highlight }: { highlight: HighlightLike }) {
   /* The line-number gutter is 1.5rem (6 * 0.25rem) wide with a 1rem right
    * padding. We push highlights to the right of the gutter. */
   const gutter = 'calc(1.5rem + 1rem)';
-  const left =
-    startColumn !== undefined
-      ? `calc(${gutter} + ${startColumn - 1} * 1ch)`
-      : gutter;
+  const left = startColumn !== undefined ? `calc(${gutter} + ${startColumn - 1} * 1ch)` : gutter;
   const width =
     startColumn !== undefined && endColumn !== undefined
       ? `calc(${endColumn - startColumn + 1} * 1ch)`

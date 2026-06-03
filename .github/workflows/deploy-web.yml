@@ -1,0 +1,64 @@
+name: Deploy web (Vercel)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - '.github/workflows/deploy-web.yml'
+  workflow_dispatch:
+
+# This workflow is opt-in: it only runs when the four required secrets are
+# configured in the repository. Set them under
+# Settings -> Secrets and variables -> Actions:
+#
+#   VERCEL_TOKEN       (Vercel access token)
+#   VERCEL_ORG_ID      (Vercel team / personal account id)
+#   VERCEL_PROJECT_ID  (the @codecraft/web project)
+#   VITE_API_URL       (optional; URL of the deployed API)
+#
+# Without those secrets the job is skipped with a friendly message.
+
+jobs:
+  deploy:
+    name: Build and deploy to Vercel
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ env.HAS_VERCEL == 'true' }}
+    env:
+      HAS_VERCEL: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != '' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: pnpm add -g vercel@latest
+
+      - name: Pull Vercel project info
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/web
+
+      - name: Build for production
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/web
+
+      - name: Deploy prebuilt artifact
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/web

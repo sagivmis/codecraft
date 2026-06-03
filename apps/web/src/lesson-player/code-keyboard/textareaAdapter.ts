@@ -9,9 +9,7 @@ import type { EditorAdapter } from './types.js';
  * textarea picks up the change via its onChange handler. We rely on the
  * `setValue` trick to bypass React's input value setter cache.
  */
-export function createTextareaAdapter(
-  ref: RefObject<HTMLTextAreaElement | null>,
-): EditorAdapter {
+export function createTextareaAdapter(ref: RefObject<HTMLTextAreaElement | null>): EditorAdapter {
   function applyInsert(insert: string): void {
     const ta = ref.current;
     if (!ta) return;
@@ -48,7 +46,8 @@ export function createTextareaAdapter(
  * concerned. Dispatching `input` afterwards is what makes React notice.
  */
 function setNativeValue(el: HTMLTextAreaElement | HTMLInputElement, value: string): void {
-  const proto = el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+  const proto =
+    el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
   const descriptor = Object.getOwnPropertyDescriptor(proto, 'value');
   const setter = descriptor?.set;
   if (setter) {

@@ -114,7 +114,11 @@ export function CodeKeyboard({
             <Divider />
           </>
         )}
-        <PaletteGroup tokens={palette.language} onInsert={insertToken} ariaLabel="Language tokens" />
+        <PaletteGroup
+          tokens={palette.language}
+          onInsert={insertToken}
+          ariaLabel="Language tokens"
+        />
         {palette.base.length > 0 && (
           <>
             <Divider />
