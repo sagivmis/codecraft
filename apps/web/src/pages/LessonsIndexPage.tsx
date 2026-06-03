@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { getAllLessons } from '@codecraft/content';
 import { Button, Card, useTheme } from '@codecraft/ui';
+import { StreakBanner, StreakChip, XpChip, useXp } from '../engagement/index.js';
 
 const TIER_LABELS = {
   easy: 'Easy',
@@ -18,6 +19,7 @@ const LANG_LABELS = {
 export function LessonsIndexPage() {
   const { theme, setTheme } = useTheme();
   const lessons = getAllLessons();
+  const xp = useXp();
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-6 px-4 py-8 md:py-12">
@@ -29,7 +31,9 @@ export function LessonsIndexPage() {
           <h1 className="mt-1 text-3xl font-bold tracking-tight md:text-4xl">Lessons</h1>
           <p className="text-[var(--cc-fg-muted)]">Pick a lesson to start. More are on the way.</p>
         </div>
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
+          <StreakChip />
+          <XpChip />
           <span className="text-[var(--cc-fg-muted)]">Track:</span>
           <Button
             variant={theme === 'kids' ? 'primary' : 'secondary'}
@@ -48,6 +52,8 @@ export function LessonsIndexPage() {
         </div>
       </header>
 
+      <StreakBanner />
+
       {lessons.length === 0 ? (
         <Card>
           <p className="text-sm text-[var(--cc-fg-muted)]">No lessons yet. Check back soon.</p>
@@ -56,6 +62,9 @@ export function LessonsIndexPage() {
         <ul className="grid gap-3 md:grid-cols-2">
           {lessons.map((lesson) => {
             const variant = lesson.variants[theme];
+            const lessonXp = xp.perLesson[lesson.id];
+            const stagesDone = lessonXp?.awardedStages.length ?? 0;
+            const totalStages = 5;
             return (
               <li key={lesson.id}>
                 <Link
@@ -81,9 +90,16 @@ export function LessonsIndexPage() {
                         </span>
                       ))}
                     </div>
-                    <p className="mt-3 text-xs text-[var(--cc-fg-muted)]">
-                      ~{lesson.estimatedMinutes} min
-                    </p>
+                    <div className="mt-3 flex items-center justify-between text-xs text-[var(--cc-fg-muted)]">
+                      <span>~{lesson.estimatedMinutes} min</span>
+                      {stagesDone > 0 && (
+                        <span className="font-medium text-[var(--cc-success)]">
+                          {stagesDone === totalStages
+                            ? '✓ complete'
+                            : `${stagesDone}/${totalStages} stages`}
+                        </span>
+                      )}
+                    </div>
                   </Card>
                 </Link>
               </li>

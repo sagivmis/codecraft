@@ -1,8 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, useTheme } from '@codecraft/ui';
 import { getLessonById } from '@codecraft/content';
 
+import { Celebration, useEngagement } from '../engagement/index.js';
 import { firstIncompleteStage, useLessonProgress } from './progress.js';
 import { StageNav } from './StageNav.js';
 import {
@@ -29,6 +30,21 @@ export function LessonPlayer() {
   const lesson = useMemo(() => getLessonById(lessonId), [lessonId]);
 
   const { progress, markStage } = useLessonProgress(lessonId);
+  const { completeStage } = useEngagement();
+  /* Track XP earned this session so the celebration screen knows what to
+   * animate. Resets when the user navigates to a new lesson. */
+  const sessionXpRef = useRef(0);
+  const sessionStreakRef = useRef<{
+    current: number;
+    delta: 'unchanged' | 'started' | 'incremented' | 'reset';
+  } | null>(null);
+  const [, setSessionTick] = useState(0);
+
+  useEffect(() => {
+    sessionXpRef.current = 0;
+    sessionStreakRef.current = null;
+    setSessionTick((t) => t + 1);
+  }, [lessonId]);
 
   const currentStage: StageKey | null = useMemo(() => {
     if (params.stage && isStageKey(params.stage)) return params.stage;
@@ -46,6 +62,18 @@ export function LessonPlayer() {
   const handleAdvance = useCallback(
     (stage: StageKey, result: StageResult) => {
       markStage(stage, result.status, result.meta);
+      /* Award XP + bump streak when a stage is completed. The engagement
+       * helpers are idempotent per (lesson, stage), so re-completing
+       * doesn't double-count and re-visiting the same day doesn't restart
+       * the streak. */
+      if (result.status === 'completed') {
+        const { xp, streak } = completeStage(lessonId, stage);
+        sessionXpRef.current += xp.granted;
+        if (streak.delta !== 'unchanged') {
+          sessionStreakRef.current = { current: streak.state.current, delta: streak.delta };
+        }
+        setSessionTick((t) => t + 1);
+      }
       const upcoming = nextStage(stage);
       if (upcoming) {
         goToStage(upcoming);
@@ -53,7 +81,7 @@ export function LessonPlayer() {
         navigate(`/lessons/${lessonId}/complete`);
       }
     },
-    [goToStage, lessonId, markStage, navigate],
+    [completeStage, goToStage, lessonId, markStage, navigate],
   );
 
   const handleBack = useCallback(
@@ -70,7 +98,14 @@ export function LessonPlayer() {
   }
 
   if (params.stage === 'complete') {
-    return <LessonComplete lessonTitle={lesson.variants[theme].title} lessonId={lessonId} />;
+    return (
+      <LessonComplete
+        lessonTitle={lesson.variants[theme].title}
+        lessonId={lessonId}
+        xpGained={sessionXpRef.current}
+        streakSummary={sessionStreakRef.current}
+      />
+    );
   }
 
   if (!currentStage) {
@@ -124,15 +159,32 @@ export function LessonPlayer() {
   );
 }
 
-function LessonComplete({ lessonTitle, lessonId }: { lessonTitle: string; lessonId: string }) {
+function LessonComplete({
+  lessonTitle,
+  lessonId,
+  xpGained,
+  streakSummary,
+}: {
+  lessonTitle: string;
+  lessonId: string;
+  xpGained: number;
+  streakSummary: {
+    current: number;
+    delta: 'unchanged' | 'started' | 'incremented' | 'reset';
+  } | null;
+}) {
   const navigate = useNavigate();
+  const { xp } = useEngagement();
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-4 px-4 text-center">
-      <span className="text-6xl" aria-hidden>
-        🎉
-      </span>
-      <h1 className="text-3xl font-bold">Nice work!</h1>
-      <p className="text-[var(--cc-fg-muted)]">You finished “{lessonTitle}”.</p>
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-6 px-4 py-10 text-center">
+      <Celebration
+        xpGained={xpGained}
+        xpTotal={xp.total}
+        streakCurrent={streakSummary?.current}
+        streakDelta={streakSummary?.delta ?? null}
+        headline={`You finished "${lessonTitle}"`}
+        subline="One small step closer to thinking like a programmer."
+      />
       <div className="mt-2 flex flex-wrap justify-center gap-2">
         <Button variant="primary" onClick={() => navigate('/lessons')}>
           Pick the next lesson

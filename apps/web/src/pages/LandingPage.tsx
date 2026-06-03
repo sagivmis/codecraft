@@ -6,6 +6,7 @@ import { getAllLessons } from '@codecraft/content';
 
 import { OnboardingModal } from './onboarding/OnboardingModal.js';
 import { useOnboarding } from './onboarding/useOnboarding.js';
+import { StreakBanner, StreakChip, XpChip } from '../engagement/index.js';
 
 const HERO_SNIPPET = `const score = 0;
 const goal = 5;
@@ -39,6 +40,8 @@ export function LandingPage() {
           <span className="text-xl font-bold tracking-tight">CodeCraft</span>
         </div>
         <div className="flex items-center gap-2 text-xs sm:text-sm">
+          <StreakChip />
+          <XpChip />
           <span className="hidden text-[var(--cc-fg-muted)] sm:inline">Track:</span>
           <Button
             variant={theme === 'kids' ? 'primary' : 'secondary'}
@@ -56,6 +59,9 @@ export function LandingPage() {
           </Button>
         </div>
       </header>
+
+      <StreakBanner />
+
 
       <section className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr]">
         <motion.div
