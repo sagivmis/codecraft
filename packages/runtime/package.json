@@ -7,6 +7,7 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./expect": "./src/expect.ts",
     "./worker": "./src/worker/testRunner.worker.ts"
   },
   "scripts": {

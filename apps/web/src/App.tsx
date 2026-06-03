@@ -5,8 +5,10 @@ import { NotFoundPage } from './pages/NotFoundPage.js';
 import { PreviewDashboard } from './pages/PreviewDashboard.js';
 import { LessonPlayer } from './lesson-player/LessonPlayer.js';
 import { InstallPrompt } from './pwa/InstallPrompt.js';
+import { useProgressSync } from './lib/syncProgress.js';
 
 export function App() {
+  useProgressSync();
   return (
     <>
       <Routes>

@@ -1,6 +1,6 @@
 import { getAllLessons } from '../src/index.js';
 import { LessonSchema } from '@codecraft/schema';
-import { expect, formatThrown } from '@codecraft/runtime';
+import { expect, formatThrown } from '@codecraft/runtime/expect';
 
 const lessons = getAllLessons();
 
