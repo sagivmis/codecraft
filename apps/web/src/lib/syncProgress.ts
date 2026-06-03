@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import type { LessonProgressDTO, ProgressPayloadDTO, StageProgressDTO } from '@codecraft/schema';
 
+import { PROGRESS_SYNC_DEFER_MS, STORAGE_KEYS } from '@types';
+
 import {
   STAGE_KEYS,
   makeInitialProgress,
@@ -20,8 +22,8 @@ import { api } from './apiClient.js';
  * way back.
  */
 
-const STORAGE_KEY_PREFIX = 'codecraft.progress.';
-const LAST_SYNC_KEY = 'codecraft:last-sync-at';
+const STORAGE_KEY_PREFIX = STORAGE_KEYS.PROGRESS_PREFIX;
+const LAST_SYNC_KEY = STORAGE_KEYS.LAST_SYNC_AT;
 
 function storageKey(lessonId: string) {
   return `${STORAGE_KEY_PREFIX}${lessonId}`;
@@ -143,7 +145,7 @@ export function useProgressSync() {
     /* Defer to idle time so we never compete with the initial render. */
     const t = window.setTimeout(() => {
       if (!cancelled) void syncProgressOnce();
-    }, 1500);
+    }, PROGRESS_SYNC_DEFER_MS);
     return () => {
       cancelled = true;
       window.clearTimeout(t);

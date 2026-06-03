@@ -1,4 +1,6 @@
-const STORAGE_KEY = 'codecraft:device-id:v1';
+import { STORAGE_KEYS } from '@types';
+
+const STORAGE_KEY = STORAGE_KEYS.DEVICE_ID;
 
 /**
  * Returns a stable per-browser UUID used as the bearer token against the API.

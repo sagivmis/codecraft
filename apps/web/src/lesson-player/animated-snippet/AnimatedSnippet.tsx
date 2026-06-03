@@ -3,6 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Button, cn } from '@codecraft/ui';
 import type { WalkthroughStage, WalkthroughStep } from '@codecraft/schema';
 
+import { WALKTHROUGH_AUTOPLAY_MS } from '@types';
+
 type AnimatedSnippetProps = {
   walkthrough: WalkthroughStage;
   /** Default auto-play delay between steps (ms). */
@@ -26,7 +28,7 @@ type AnimatedSnippetProps = {
  */
 export function AnimatedSnippet({
   walkthrough,
-  autoPlayDelayMs = 4500,
+  autoPlayDelayMs = WALKTHROUGH_AUTOPLAY_MS,
   onComplete,
 }: AnimatedSnippetProps) {
   const lines = useMemo(() => walkthrough.code.split('\n'), [walkthrough.code]);

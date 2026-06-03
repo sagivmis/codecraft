@@ -1,7 +1,9 @@
+import { STORAGE_KEYS } from '@types';
+
 import { EMPTY_STREAK, EMPTY_XP, type StreakState, type XpState } from './types.js';
 
-const STREAK_KEY = 'codecraft:engagement:streak:v1';
-const XP_KEY = 'codecraft:engagement:xp:v1';
+const STREAK_KEY = STORAGE_KEYS.STREAK;
+const XP_KEY = STORAGE_KEYS.XP;
 
 /** YYYY-MM-DD in the user's LOCAL timezone (not UTC). */
 export function todayKey(now: Date = new Date()): string {

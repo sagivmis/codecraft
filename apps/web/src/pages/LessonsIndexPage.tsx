@@ -1,20 +1,10 @@
 import { Link } from 'react-router-dom';
 import { getAllLessons } from '@codecraft/content';
 import { Button, Card, useTheme } from '@codecraft/ui';
+
+import { LANG_LABELS, STAGES_PER_LESSON, TIER_LABELS } from '@types';
+
 import { StreakBanner, StreakChip, XpChip, useXp } from '../engagement/index.js';
-
-const TIER_LABELS = {
-  easy: 'Easy',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
-} as const;
-
-const LANG_LABELS = {
-  js: 'JavaScript',
-  ts: 'TypeScript',
-  python: 'Python',
-  csharp: 'C#',
-} as const;
 
 export function LessonsIndexPage() {
   const { theme, setTheme } = useTheme();
@@ -64,7 +54,7 @@ export function LessonsIndexPage() {
             const variant = lesson.variants[theme];
             const lessonXp = xp.perLesson[lesson.id];
             const stagesDone = lessonXp?.awardedStages.length ?? 0;
-            const totalStages = 5;
+            const totalStages = STAGES_PER_LESSON;
             return (
               <li key={lesson.id}>
                 <Link

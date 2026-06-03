@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@codecraft/ui';
 
+import { CELEBRATION_PARTICLE_COLORS } from '@types';
+
 type CelebrationProps = {
   /** How much XP was awarded. Animated 0 → xpGained. */
   xpGained: number;
@@ -15,8 +17,6 @@ type CelebrationProps = {
   /** Smaller copy beneath the headline. */
   subline?: string;
 };
-
-const COLORS = ['#f97316', '#22c55e', '#6366f1', '#eab308', '#ec4899'];
 
 type Particle = {
   id: number;
@@ -51,7 +51,7 @@ export function Celebration({
       /* Fly downward 200..520px. */
       y: 200 + Math.random() * 320,
       rotate: (Math.random() - 0.5) * 720,
-      color: COLORS[i % COLORS.length] as string,
+      color: CELEBRATION_PARTICLE_COLORS[i % CELEBRATION_PARTICLE_COLORS.length] as string,
       /* Stagger so they don't all spawn at the same instant. */
       delay: (i % 7) * 0.04,
     }));

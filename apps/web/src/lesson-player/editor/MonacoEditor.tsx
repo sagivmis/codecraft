@@ -4,6 +4,12 @@ import type { editor as monacoEditor } from 'monaco-editor';
 import { cn } from '@codecraft/ui';
 import type { Language } from '@codecraft/schema';
 
+import {
+  EDITOR_LINE_HEIGHT_PX,
+  EDITOR_MAX_HEIGHT_PX,
+  EDITOR_MIN_HEIGHT_PX,
+} from '@types';
+
 import type { EditorAdapter } from '../code-keyboard/types.js';
 
 type MonacoEditorProps = {
@@ -26,12 +32,7 @@ const LANGUAGE_MAP: Record<Language, string> = {
   csharp: 'csharp',
 };
 
-/* Cap the editor height so a lesson with a long starter still fits the
- * viewport on mobile. Min height keeps the cursor reachable on the
- * smallest screens. */
-const LINE_HEIGHT_PX = 22;
-const MIN_HEIGHT_PX = 160;
-const MAX_HEIGHT_PX = 480;
+/* Editor sizing constants now live in apps/web/src/constants.ts. */
 
 export function MonacoEditor({
   value,
@@ -113,8 +114,8 @@ export function MonacoEditor({
   useEffect(() => () => onAdapter?.(null), [onAdapter]);
 
   const height = useMemo(() => {
-    const px = heightLines * LINE_HEIGHT_PX + 24;
-    return Math.max(MIN_HEIGHT_PX, Math.min(MAX_HEIGHT_PX, px));
+    const px = heightLines * EDITOR_LINE_HEIGHT_PX + 24;
+    return Math.max(EDITOR_MIN_HEIGHT_PX, Math.min(EDITOR_MAX_HEIGHT_PX, px));
   }, [heightLines]);
 
   const options: monacoEditor.IStandaloneEditorConstructionOptions = useMemo(
@@ -122,7 +123,7 @@ export function MonacoEditor({
       minimap: { enabled: false },
       fontFamily: "var(--cc-font-mono), 'JetBrains Mono', monospace",
       fontSize: 14,
-      lineHeight: LINE_HEIGHT_PX,
+      lineHeight: EDITOR_LINE_HEIGHT_PX,
       lineNumbers: 'on',
       scrollBeyondLastLine: false,
       automaticLayout: true,

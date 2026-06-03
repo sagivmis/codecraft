@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 
+import { XP_PER_STAGE } from '@types';
+
 import {
   daysBetween,
   readStreak,
@@ -8,7 +10,7 @@ import {
   writeStreak,
   writeXp,
 } from './storage.js';
-import { EMPTY_STREAK, EMPTY_XP, XP_PER_STAGE, type StreakState, type XpState } from './types.js';
+import { EMPTY_STREAK, EMPTY_XP, type StreakState, type XpState } from './types.js';
 
 /**
  * Lightweight pub/sub so all engagement-aware components in the app see

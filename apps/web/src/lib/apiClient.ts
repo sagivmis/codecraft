@@ -1,4 +1,7 @@
 import type { ProgressPayloadDTO, StreakDTO } from '@codecraft/schema';
+
+import { API_URL } from '@types';
+
 import { getDeviceId } from './deviceId.js';
 
 /**
@@ -8,8 +11,6 @@ import { getDeviceId } from './deviceId.js';
  * `null` when `VITE_API_URL` is not configured, so callers can use the same
  * code path in both modes.
  */
-const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '');
-
 function isEnabled() {
   return Boolean(API_URL);
 }

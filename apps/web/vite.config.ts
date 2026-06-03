@@ -1,9 +1,17 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      /* Mirrors the tsconfig path alias. Single-file alias so all centralized
+       * constants live in one place (apps/web/src/constants.ts). */
+      '@types': fileURLToPath(new URL('./src/constants.ts', import.meta.url)),
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),

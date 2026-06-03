@@ -2,6 +2,9 @@ import { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button, CodeBlock, cn } from '@codecraft/ui';
 import { runTests, type TestRunResult } from '@codecraft/runtime';
+
+import { TEST_RUN_TIMEOUT_MS } from '@types';
+
 import { CodeKeyboard } from '../code-keyboard/CodeKeyboard.js';
 import type { EditorAdapter } from '../code-keyboard/types.js';
 import { LazyMonacoEditor } from '../editor/LazyMonacoEditor.js';
@@ -23,7 +26,7 @@ export function ImplementStageView({ lesson, onAdvance, onBack }: StageViewProps
         language: impl.language,
         studentCode: code,
         tests: impl.tests,
-        timeoutMs: 4000,
+        timeoutMs: TEST_RUN_TIMEOUT_MS,
       });
       setResult(r);
     } finally {

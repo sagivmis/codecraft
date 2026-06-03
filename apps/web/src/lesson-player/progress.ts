@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+
+import { STORAGE_KEYS } from '@types';
+
 import {
   STAGE_KEYS,
   makeInitialProgress,
@@ -8,7 +11,7 @@ import {
   type StageStatus,
 } from './types.js';
 
-const STORAGE_KEY_PREFIX = 'codecraft.progress.';
+const STORAGE_KEY_PREFIX = STORAGE_KEYS.PROGRESS_PREFIX;
 
 function storageKey(lessonId: string): string {
   return `${STORAGE_KEY_PREFIX}${lessonId}`;

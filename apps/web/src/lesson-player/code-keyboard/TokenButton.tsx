@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '@codecraft/ui';
 import type { TokenSpec } from '@codecraft/schema';
 
-const LONG_PRESS_MS = 450;
+import { LONG_PRESS_MS } from '@types';
 
 type TokenButtonProps = {
   token: TokenSpec;

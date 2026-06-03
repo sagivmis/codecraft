@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Track } from '@codecraft/schema';
 
-const STORAGE_KEY = 'codecraft:onboarding:v1';
+import { STORAGE_KEYS } from '@types';
+
+const STORAGE_KEY = STORAGE_KEYS.ONBOARDING;
 
 export type OnboardingState = {
   /** True once the student has picked a track (or explicitly skipped). */

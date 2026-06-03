@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button, cn } from '@codecraft/ui';
 
+import { PWA_INSTALL_DISMISS_COOLDOWN_DAYS, STORAGE_KEYS } from '@types';
+
+const DISMISS_KEY = STORAGE_KEYS.PWA_INSTALL_DISMISSED;
+
 /**
  * Chrome/Edge/Android `beforeinstallprompt` event.
  * Typed here because the DOM lib doesn't ship a global type for it.
@@ -10,10 +14,6 @@ interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
 }
-
-const DISMISS_KEY = 'codecraft:pwa-install:dismissed-at';
-/** Re-show the prompt after this many days if the user dismissed it. */
-const DISMISS_COOLDOWN_DAYS = 7;
 
 /**
  * Floating PWA install prompt.
@@ -37,7 +37,7 @@ export function InstallPrompt() {
 
     /* Cooldown after a previous dismiss. */
     const dismissedAt = Number(localStorage.getItem(DISMISS_KEY) || 0);
-    if (dismissedAt && Date.now() - dismissedAt < DISMISS_COOLDOWN_DAYS * 86_400_000) {
+    if (dismissedAt && Date.now() - dismissedAt < PWA_INSTALL_DISMISS_COOLDOWN_DAYS * 86_400_000) {
       return;
     }
 
