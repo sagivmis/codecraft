@@ -54,6 +54,9 @@ export default defineConfig({
     }),
   ],
   server: {
+    /* Bind to 0.0.0.0 so phones on the same Wi-Fi can hit the dev server.
+     * In dev only — production deploys behind their own host. */
+    host: true,
     port: 5173,
     strictPort: false,
   },

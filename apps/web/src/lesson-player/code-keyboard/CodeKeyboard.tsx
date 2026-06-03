@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@codecraft/ui';
 import type { Language, TokenSpec } from '@codecraft/schema';
 import { TokenButton } from './TokenButton.js';
 import { resolvePalette } from './palettes.js';
 import type { EditorAdapter } from './types.js';
-import { useIsTouchDevice, useSoftKeyboardOffset } from './useMobileKeyboard.js';
+import { useIsTouchDevice, useSoftKeyboard } from './useMobileKeyboard.js';
 
 type CodeKeyboardProps = {
   language: Language;
@@ -17,11 +18,14 @@ type CodeKeyboardProps = {
  * The on-screen Code Keyboard.
  *
  * Layout switches based on device:
- *   - Touch device with soft keyboard up: fixed-position bar pinned just
- *     above the keyboard via visualViewport offset
- *   - Touch device without keyboard up: fixed bar at bottom of viewport
+ *   - Touch device: fixed-position bar pinned to the TOP of the viewport.
+ *     This sidesteps the entire visualViewport / soft-keyboard timing
+ *     mess on iOS Safari (where bottom-anchored bars only become visible
+ *     after a manual scroll). The top is always inside the visible area
+ *     no matter how the soft keyboard animates in, and `safe-area-inset-top`
+ *     keeps clear of the iOS notch.
  *   - Desktop: collapsible inline bar above/below the editor, with
- *     Alt+1..Alt+9 shortcuts for the first 9 lesson tokens
+ *     Alt+1..Alt+9 shortcuts for the first 9 lesson tokens.
  *
  * Three-tier merge happens in `resolvePalette`. The result is grouped so the
  * lesson palette renders first (always visible), then a divider, then
@@ -34,7 +38,7 @@ export function CodeKeyboard({
   disableBaseTokens,
 }: CodeKeyboardProps) {
   const isTouch = useIsTouchDevice();
-  const keyboardOffset = useSoftKeyboardOffset();
+  const { visualOffsetTop } = useSoftKeyboard();
   const [collapsed, setCollapsed] = useState(!isTouch);
 
   const palette = useMemo(
@@ -85,18 +89,30 @@ export function CodeKeyboard({
     );
   }
 
-  const fixedToBottom = isTouch;
+  const fixedToTop = isTouch;
 
-  return (
+  const bar = (
     <div
       className={cn(
-        fixedToBottom
-          ? 'fixed inset-x-0 z-40 border-t border-[var(--cc-border)] bg-[var(--cc-surface)] shadow-lg'
+        fixedToTop
+          ? 'fixed inset-x-0 top-0 z-[60] border-b border-[var(--cc-border)] bg-[var(--cc-surface)] shadow-md'
           : 'sticky bottom-0 my-2 rounded-xl border border-[var(--cc-border)] bg-[var(--cc-surface)] shadow-sm',
       )}
       style={
-        fixedToBottom
-          ? { bottom: keyboardOffset, paddingBottom: 'env(safe-area-inset-bottom)' }
+        fixedToTop
+          ? {
+              /* Avoid the iOS notch / Android status bar. */
+              paddingTop: 'env(safe-area-inset-top)',
+              /* `position: fixed` pins to the LAYOUT viewport on iOS Safari.
+               * When the soft keyboard is open, the visual viewport can
+               * scroll independently of the layout viewport, so the bar
+               * appears to drift off-screen as the user scrolls. Translate
+               * by `vv.offsetTop` to keep it visually pinned to the top of
+               * the visible area. transform3d goes on a GPU layer so the
+               * update is in lockstep with the visual viewport. */
+              transform: visualOffsetTop ? `translate3d(0, ${visualOffsetTop}px, 0)` : undefined,
+              willChange: visualOffsetTop ? 'transform' : undefined,
+            }
           : undefined
       }
       role="toolbar"
@@ -141,6 +157,15 @@ export function CodeKeyboard({
       </div>
     </div>
   );
+
+  /* On touch devices, portal to <body> so no ancestor's transform / filter
+   * / will-change can demote `position: fixed` to "fixed within ancestor".
+   * (Framer Motion sets transforms on parents, which silently breaks fixed
+   * positioning — even Tailwind's `transform-gpu` would do the same.) */
+  if (fixedToTop && typeof document !== 'undefined') {
+    return createPortal(bar, document.body);
+  }
+  return bar;
 }
 
 function PaletteGroup({
