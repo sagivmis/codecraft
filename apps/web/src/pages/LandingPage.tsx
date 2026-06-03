@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Button, Card, useTheme } from '@codecraft/ui';
 
 export function LandingPage() {
@@ -34,10 +35,14 @@ export function LandingPage() {
           ages 9 to 18.
         </p>
         <div className="flex flex-wrap gap-3 pt-2">
-          <Button size="lg">Start the first lesson</Button>
-          <Button size="lg" variant="secondary">
-            Browse the curriculum
-          </Button>
+          <Link to="/lessons/js-variables">
+            <Button size="lg">Start the first lesson</Button>
+          </Link>
+          <Link to="/lessons">
+            <Button size="lg" variant="secondary">
+              Browse the curriculum
+            </Button>
+          </Link>
         </div>
       </section>
 

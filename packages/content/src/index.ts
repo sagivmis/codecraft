@@ -1,4 +1,5 @@
 import type { Lesson, Language } from '@codecraft/schema';
+import variablesLesson from '../javascript/01-variables/lesson.js';
 
 /**
  * Lesson registry.
@@ -7,9 +8,8 @@ import type { Lesson, Language } from '@codecraft/schema';
  *   packages/content/javascript/01-variables/lesson.ts
  *
  * Each lesson.ts file default-exports the result of `defineLesson(...)`.
- * The five v1 JS lessons get registered here by the `five_js_lessons` todo.
  */
-const lessons: Lesson[] = [];
+const lessons: Lesson[] = [variablesLesson];
 
 export function getAllLessons(): Lesson[] {
   return [...lessons].sort((a, b) => {
