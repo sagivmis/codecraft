@@ -1,0 +1,106 @@
+/*
+ * CodeCraft theme tokens.
+ *
+ * Tokens are exposed as CSS variables so Tailwind utility classes can reference
+ * them via `bg-[var(--cc-primary)]` etc. without paying the cost of regenerating
+ * Tailwind config for every theme.
+ *
+ * Two themes are switched via the `data-theme` attribute on <html>:
+ *   - data-theme="teens" - clean, IDE-like, neutral palette
+ *   - data-theme="kids"  - brighter, playful palette, larger touch targets
+ *
+ * Each theme also has a dark-mode override that activates when the user prefers
+ * dark colors (or when we add an explicit toggle later).
+ */
+
+:root,
+:root[data-theme='teens'] {
+  --cc-bg: #f6f7fb;
+  --cc-fg: #0f172a;
+  --cc-fg-muted: #475569;
+
+  --cc-surface: #ffffff;
+  --cc-surface-hover: #f1f5f9;
+  --cc-border: #e2e8f0;
+
+  --cc-primary: #4f46e5;
+  --cc-primary-hover: #4338ca;
+  --cc-primary-fg: #ffffff;
+
+  --cc-success: #16a34a;
+  --cc-success-fg: #ffffff;
+  --cc-danger: #dc2626;
+  --cc-danger-hover: #b91c1c;
+  --cc-danger-fg: #ffffff;
+
+  --cc-focus-ring: #6366f1;
+
+  --cc-code-bg: #0b1020;
+  --cc-code-fg: #e2e8f0;
+  --cc-code-highlight: rgba(99, 102, 241, 0.18);
+
+  --cc-radius-sm: 0.5rem;
+  --cc-radius-md: 0.75rem;
+  --cc-radius-lg: 1rem;
+
+  --cc-font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --cc-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --cc-tap-target: 44px;
+}
+
+:root[data-theme='kids'] {
+  --cc-bg: #fff8ed;
+  --cc-fg: #1f2937;
+  --cc-fg-muted: #6b7280;
+
+  --cc-surface: #ffffff;
+  --cc-surface-hover: #fef3c7;
+  --cc-border: #fde68a;
+
+  --cc-primary: #f97316;
+  --cc-primary-hover: #ea580c;
+  --cc-primary-fg: #ffffff;
+
+  --cc-success: #22c55e;
+  --cc-success-fg: #ffffff;
+  --cc-danger: #ef4444;
+  --cc-danger-hover: #dc2626;
+  --cc-danger-fg: #ffffff;
+
+  --cc-focus-ring: #fb923c;
+
+  --cc-code-bg: #1e1b4b;
+  --cc-code-fg: #fef3c7;
+  --cc-code-highlight: rgba(251, 146, 60, 0.25);
+
+  --cc-radius-sm: 0.75rem;
+  --cc-radius-md: 1rem;
+  --cc-radius-lg: 1.25rem;
+
+  --cc-font-sans: 'Baloo 2', 'Nunito', system-ui, -apple-system, sans-serif;
+  --cc-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --cc-tap-target: 52px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme='teens'] {
+    --cc-bg: #0b1020;
+    --cc-fg: #f1f5f9;
+    --cc-fg-muted: #94a3b8;
+    --cc-surface: #111827;
+    --cc-surface-hover: #1f2937;
+    --cc-border: #1f2937;
+    --cc-code-bg: #020617;
+  }
+}
+
+html,
+body {
+  background: var(--cc-bg);
+  color: var(--cc-fg);
+  font-family: var(--cc-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

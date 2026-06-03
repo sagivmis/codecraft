@@ -1,0 +1,27 @@
+{
+  "name": "codecraft",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Coding education platform for ages 9-18. Multi-stage interactive lessons in JS, TS, Python, C#.",
+  "packageManager": "pnpm@11.5.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @codecraft/web dev",
+    "dev:api": "pnpm --filter @codecraft/api dev",
+    "build": "pnpm -r --filter \"./packages/*\" build && pnpm -r --filter \"./apps/*\" build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,mdx,css,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,mdx,css,yml,yaml}\"",
+    "test": "pnpm -r test",
+    "clean": "pnpm -r exec rimraf dist .turbo .cache *.tsbuildinfo"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2"
+  }
+}
