@@ -1,7 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button, Card, CodeBlock, cn } from '@codecraft/ui';
+import { Button, CodeBlock, cn } from '@codecraft/ui';
 import { runTests, type TestRunResult } from '@codecraft/runtime';
+import { CodeKeyboard } from '../code-keyboard/CodeKeyboard.js';
+import { createTextareaAdapter } from '../code-keyboard/textareaAdapter.js';
 import { StageScaffold } from './StageScaffold.js';
 import type { StageViewProps } from './types.js';
 
@@ -19,6 +21,8 @@ export function ImplementStageView({ lesson, onAdvance, onBack }: StageViewProps
   const [code, setCode] = useState(impl.starterCode || impl.solutionCode);
   const [result, setResult] = useState<TestRunResult | null>(null);
   const [running, setRunning] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const adapter = useMemo(() => createTextareaAdapter(textareaRef), []);
 
   const handleRun = useCallback(async () => {
     setRunning(true);
@@ -62,6 +66,7 @@ export function ImplementStageView({ lesson, onAdvance, onBack }: StageViewProps
 
       <label className="text-sm font-semibold text-[var(--cc-fg-muted)]">Your code:</label>
       <textarea
+        ref={textareaRef}
         value={code}
         onChange={(e) => setCode(e.target.value)}
         spellCheck={false}
@@ -73,6 +78,13 @@ export function ImplementStageView({ lesson, onAdvance, onBack }: StageViewProps
           'focus:outline-none focus:ring-2 focus:ring-[var(--cc-focus-ring)]',
         )}
         rows={Math.max(6, code.split('\n').length + 1)}
+      />
+
+      <CodeKeyboard
+        language={impl.language}
+        adapter={adapter}
+        lessonPalette={lesson.codeKeyboard?.lessonPalette}
+        disableBaseTokens={lesson.codeKeyboard?.disableBaseTokens}
       />
 
       <div className="flex flex-wrap items-center gap-2">
