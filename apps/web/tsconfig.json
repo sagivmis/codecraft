@@ -8,7 +8,7 @@
     "noEmit": true,
     "types": ["vite/client", "vite-plugin-pwa/client"],
     "paths": {
-      "@types": ["./src/constants.ts"]
+      "@constants": ["./src/constants.ts"]
     }
   },
   "include": ["src/**/*", "vite.config.ts"]

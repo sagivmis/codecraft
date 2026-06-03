@@ -1,6 +1,6 @@
 import type { ProgressPayloadDTO, StreakDTO } from '@codecraft/schema';
 
-import { API_URL } from '@types';
+import { API_URL } from '@constants';
 
 import { getDeviceId } from './deviceId.js';
 

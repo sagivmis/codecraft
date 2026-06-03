@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { STORAGE_KEYS } from '@types';
+import { STORAGE_KEYS } from '@constants';
 
 import {
   STAGE_KEYS,

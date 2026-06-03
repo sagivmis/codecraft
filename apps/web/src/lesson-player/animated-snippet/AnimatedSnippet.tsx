@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Button, cn } from '@codecraft/ui';
 import type { WalkthroughStage, WalkthroughStep } from '@codecraft/schema';
 
-import { WALKTHROUGH_AUTOPLAY_MS } from '@types';
+import { WALKTHROUGH_AUTOPLAY_MS } from '@constants';
 
 type AnimatedSnippetProps = {
   walkthrough: WalkthroughStage;

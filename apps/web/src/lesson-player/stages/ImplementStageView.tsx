@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button, CodeBlock, cn } from '@codecraft/ui';
 import { runTests, type TestRunResult } from '@codecraft/runtime';
 
-import { TEST_RUN_TIMEOUT_MS } from '@types';
+import { TEST_RUN_TIMEOUT_MS } from '@constants';
 
 import { CodeKeyboard } from '../code-keyboard/CodeKeyboard.js';
 import type { EditorAdapter } from '../code-keyboard/types.js';

@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '@types';
+import { STORAGE_KEYS } from '@constants';
 
 const STORAGE_KEY = STORAGE_KEYS.DEVICE_ID;
 

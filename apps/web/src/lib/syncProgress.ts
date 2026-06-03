@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import type { LessonProgressDTO, ProgressPayloadDTO, StageProgressDTO } from '@codecraft/schema';
 
-import { PROGRESS_SYNC_DEFER_MS, STORAGE_KEYS } from '@types';
+import { PROGRESS_SYNC_DEFER_MS, STORAGE_KEYS } from '@constants';
 
 import {
   STAGE_KEYS,

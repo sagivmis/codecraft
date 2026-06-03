@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Track } from '@codecraft/schema';
 
-import { STORAGE_KEYS } from '@types';
+import { STORAGE_KEYS } from '@constants';
 
 const STORAGE_KEY = STORAGE_KEYS.ONBOARDING;
 

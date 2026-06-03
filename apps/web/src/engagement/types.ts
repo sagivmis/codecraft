@@ -34,4 +34,4 @@ export type XpState = {
 
 export const EMPTY_XP: XpState = { total: 0, perLesson: {} };
 
-/* XP_PER_STAGE moved to apps/web/src/constants.ts (alias `@types`). */
+/* XP_PER_STAGE moved to apps/web/src/constants.ts (alias `@constants`). */

@@ -8,7 +8,7 @@ import {
   EDITOR_LINE_HEIGHT_PX,
   EDITOR_MAX_HEIGHT_PX,
   EDITOR_MIN_HEIGHT_PX,
-} from '@types';
+} from '@constants';
 
 import type { EditorAdapter } from '../code-keyboard/types.js';
 

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { getAllLessons } from '@codecraft/content';
 import { Button, Card, useTheme } from '@codecraft/ui';
 
-import { LANG_LABELS, STAGES_PER_LESSON, TIER_LABELS } from '@types';
+import { LANG_LABELS, STAGES_PER_LESSON, TIER_LABELS } from '@constants';
 
 import { StreakBanner, StreakChip, XpChip, useXp } from '../engagement/index.js';
 

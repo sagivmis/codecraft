@@ -1,7 +1,7 @@
 /**
  * Centralized constants for @codecraft/web.
  *
- * Imported via the `@types` path alias (configured in tsconfig.json +
+ * Imported via the `@constants` path alias (configured in tsconfig.json +
  * vite.config.ts). Grouped by concern so adding a new constant has an
  * obvious home.
  */

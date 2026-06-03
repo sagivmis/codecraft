@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '@types';
+import { STORAGE_KEYS } from '@constants';
 
 import { EMPTY_STREAK, EMPTY_XP, type StreakState, type XpState } from './types.js';
 

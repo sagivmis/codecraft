@@ -9,7 +9,7 @@ export default defineConfig({
     alias: {
       /* Mirrors the tsconfig path alias. Single-file alias so all centralized
        * constants live in one place (apps/web/src/constants.ts). */
-      '@types': fileURLToPath(new URL('./src/constants.ts', import.meta.url)),
+      '@constants': fileURLToPath(new URL('./src/constants.ts', import.meta.url)),
     },
   },
   plugins: [

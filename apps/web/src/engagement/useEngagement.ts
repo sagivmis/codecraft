@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 
-import { XP_PER_STAGE } from '@types';
+import { XP_PER_STAGE } from '@constants';
 
 import {
   daysBetween,

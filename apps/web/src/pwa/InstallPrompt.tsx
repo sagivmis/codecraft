@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button, cn } from '@codecraft/ui';
 
-import { PWA_INSTALL_DISMISS_COOLDOWN_DAYS, STORAGE_KEYS } from '@types';
+import { PWA_INSTALL_DISMISS_COOLDOWN_DAYS, STORAGE_KEYS } from '@constants';
 
 const DISMISS_KEY = STORAGE_KEYS.PWA_INSTALL_DISMISSED;
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@codecraft/ui';
 
-import { CELEBRATION_PARTICLE_COLORS } from '@types';
+import { CELEBRATION_PARTICLE_COLORS } from '@constants';
 
 type CelebrationProps = {
   /** How much XP was awarded. Animated 0 → xpGained. */
