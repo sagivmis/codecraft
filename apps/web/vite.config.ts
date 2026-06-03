@@ -9,32 +9,39 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.svg', 'favicon-32.png', 'apple-touch-icon.png'],
       manifest: {
-        name: 'CodeCraft',
+        name: 'CodeCraft — Learn to code',
         short_name: 'CodeCraft',
-        description: 'Learn to code with bite-sized, interactive lessons.',
+        description: 'Interactive coding lessons for ages 9-18. Watch, fix, build.',
         theme_color: '#4f46e5',
         background_color: '#f6f7fb',
         display: 'standalone',
         orientation: 'any',
         start_url: '/',
+        scope: '/',
+        categories: ['education', 'productivity'],
         icons: [
-          {
-            src: '/icons/icon-192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/icons/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
+          { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
           {
             src: '/icons/icon-512-maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
+          },
+        ],
+        shortcuts: [
+          {
+            name: 'Start the first lesson',
+            url: '/lessons/js-variables',
+            description: 'Jump straight into JavaScript variables.',
+          },
+          {
+            name: 'Browse the curriculum',
+            url: '/lessons',
+            description: 'See all lessons.',
           },
         ],
       },
