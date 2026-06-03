@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button, Card, CodeBlock, cn } from '@codecraft/ui';
 
 import { CodeKeyboard } from '../code-keyboard/CodeKeyboard.js';
-import { createTextareaAdapter } from '../code-keyboard/textareaAdapter.js';
+import type { EditorAdapter } from '../code-keyboard/types.js';
+import { LazyMonacoEditor } from '../editor/LazyMonacoEditor.js';
 import { HintTree } from '../fix-the-bug/HintTree.js';
 import { LineReorder, shuffle } from '../fix-the-bug/LineReorder.js';
 import { checkSolution, type CheckResult } from '../fix-the-bug/checker.js';
@@ -57,8 +58,7 @@ function EditModeView({
   const [code, setCode] = useState(fb.buggyCode);
   const [outcome, setOutcome] = useState<Outcome>({ kind: 'idle' });
   const [attempts, setAttempts] = useState(0);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const adapter = useMemo(() => createTextareaAdapter(textareaRef), []);
+  const [adapter, setAdapter] = useState<EditorAdapter | null>(null);
 
   const handleCheck = useCallback(() => {
     const result: CheckResult = checkSolution(code, fb);
@@ -80,31 +80,31 @@ function EditModeView({
         subtitle="Read carefully - the snippet looks right but does the wrong thing. Edit until the bug is gone."
       />
 
-      <div>
+      <div className="flex flex-col gap-2">
         <p className="text-sm font-semibold text-[var(--cc-danger)]">Buggy code:</p>
-        <textarea
-          ref={textareaRef}
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          spellCheck={false}
-          autoCapitalize="off"
-          autoCorrect="off"
+        <div
           className={cn(
-            'mt-2 min-h-[8rem] w-full rounded-xl border bg-[var(--cc-code-bg)] p-3',
-            'font-mono text-sm leading-relaxed text-[var(--cc-code-fg)]',
-            'focus:outline-none focus:ring-2 focus:ring-[var(--cc-focus-ring)]',
-            outcome.kind === 'pass' && 'border-[var(--cc-success)]',
-            outcome.kind === 'fail' && 'border-[var(--cc-danger)]',
-            outcome.kind === 'idle' && 'border-[var(--cc-border)]',
+            'rounded-xl ring-1 ring-transparent transition-shadow',
+            outcome.kind === 'pass' && 'ring-[var(--cc-success)]',
+            outcome.kind === 'fail' && 'ring-[var(--cc-danger)]',
           )}
-          rows={Math.max(5, code.split('\n').length + 1)}
-        />
-        <CodeKeyboard
-          language={fb.language}
-          adapter={adapter}
-          lessonPalette={lesson.codeKeyboard?.lessonPalette}
-          disableBaseTokens={lesson.codeKeyboard?.disableBaseTokens}
-        />
+        >
+          <LazyMonacoEditor
+            value={code}
+            onChange={setCode}
+            language={fb.language}
+            onAdapter={setAdapter}
+            heightLines={Math.max(5, code.split('\n').length + 1)}
+          />
+        </div>
+        {adapter && (
+          <CodeKeyboard
+            language={fb.language}
+            adapter={adapter}
+            lessonPalette={lesson.codeKeyboard?.lessonPalette}
+            disableBaseTokens={lesson.codeKeyboard?.disableBaseTokens}
+          />
+        )}
       </div>
 
       <div className="flex flex-wrap items-center gap-2">

@@ -1,28 +1,20 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button, CodeBlock, cn } from '@codecraft/ui';
 import { runTests, type TestRunResult } from '@codecraft/runtime';
 import { CodeKeyboard } from '../code-keyboard/CodeKeyboard.js';
-import { createTextareaAdapter } from '../code-keyboard/textareaAdapter.js';
+import type { EditorAdapter } from '../code-keyboard/types.js';
+import { LazyMonacoEditor } from '../editor/LazyMonacoEditor.js';
 import { StageScaffold } from './StageScaffold.js';
 import type { StageViewProps } from './types.js';
 
-/**
- * Interim Stage 3 view: a runnable preview against the canonical solution
- * (and a textarea to tweak it), wired through the real Web Worker test runner.
- *
- * The `implement_stage` todo replaces this with Monaco + CodeKeyboard + full
- * IDE-style UX. This stub already exercises the runtime end-to-end so we know
- * the worker, expect API, and message protocol all work.
- */
 export function ImplementStageView({ lesson, onAdvance, onBack }: StageViewProps) {
   const impl = lesson.stages.implement;
 
   const [code, setCode] = useState(impl.starterCode || impl.solutionCode);
   const [result, setResult] = useState<TestRunResult | null>(null);
   const [running, setRunning] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const adapter = useMemo(() => createTextareaAdapter(textareaRef), []);
+  const [adapter, setAdapter] = useState<EditorAdapter | null>(null);
 
   const handleRun = useCallback(async () => {
     setRunning(true);
@@ -52,7 +44,7 @@ export function ImplementStageView({ lesson, onAdvance, onBack }: StageViewProps
   return (
     <StageScaffold
       title="Now you write it"
-      description="Write code that makes the tests pass. (Polished editor with on-screen keyboard arrives in the next todo.)"
+      description="Write code that makes the tests pass. Tap the on-screen keyboard for common tokens, or use Alt+1..9 on desktop."
       onBack={onBack}
       onPrimary={() => onAdvance({ status: 'completed' })}
       primaryLabel="Mark complete"
@@ -65,27 +57,22 @@ export function ImplementStageView({ lesson, onAdvance, onBack }: StageViewProps
       </div>
 
       <label className="text-sm font-semibold text-[var(--cc-fg-muted)]">Your code:</label>
-      <textarea
-        ref={textareaRef}
+      <LazyMonacoEditor
         value={code}
-        onChange={(e) => setCode(e.target.value)}
-        spellCheck={false}
-        autoCapitalize="off"
-        autoCorrect="off"
-        className={cn(
-          'min-h-[10rem] w-full rounded-xl border border-[var(--cc-border)] bg-[var(--cc-code-bg)] p-3',
-          'font-mono text-sm leading-relaxed text-[var(--cc-code-fg)]',
-          'focus:outline-none focus:ring-2 focus:ring-[var(--cc-focus-ring)]',
-        )}
-        rows={Math.max(6, code.split('\n').length + 1)}
+        onChange={setCode}
+        language={impl.language}
+        onAdapter={setAdapter}
+        heightLines={Math.max(8, code.split('\n').length + 2)}
       />
 
-      <CodeKeyboard
-        language={impl.language}
-        adapter={adapter}
-        lessonPalette={lesson.codeKeyboard?.lessonPalette}
-        disableBaseTokens={lesson.codeKeyboard?.disableBaseTokens}
-      />
+      {adapter && (
+        <CodeKeyboard
+          language={impl.language}
+          adapter={adapter}
+          lessonPalette={lesson.codeKeyboard?.lessonPalette}
+          disableBaseTokens={lesson.codeKeyboard?.disableBaseTokens}
+        />
+      )}
 
       <div className="flex flex-wrap items-center gap-2">
         <Button variant="primary" size="sm" onClick={handleRun} disabled={running}>
