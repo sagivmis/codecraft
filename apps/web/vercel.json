@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "pnpm --filter '@codecraft/web' build",
-  "outputDirectory": "dist",
   "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm icons && pnpm build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/((?!api/|.*\\..*).*)",

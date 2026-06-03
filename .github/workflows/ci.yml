@@ -48,6 +48,9 @@ jobs:
       - name: Format check
         run: pnpm format:check
 
+      - name: Generate PWA icons
+        run: pnpm --filter '@codecraft/web' icons
+
       - name: Build web
         run: pnpm --filter '@codecraft/web' build
 

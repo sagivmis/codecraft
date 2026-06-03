@@ -1,0 +1,21 @@
+# Render Blueprint — optional one-click deploy for @codecraft/api
+# Web app: deploy on Vercel (see docs/DEPLOY.md)
+#
+# After deploy, set CORS_ORIGINS to your Vercel URL (comma-separated if multiple).
+
+services:
+  - type: web
+    name: codecraft-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

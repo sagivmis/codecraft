@@ -67,9 +67,11 @@ pnpm dev
 
 ## Deployment
 
-- **Web → Vercel** (or Cloudflare Pages / Netlify — `_redirects` is set up for SPA fallback). `apps/web/vercel.json` ships ready-to-go. CI in `.github/workflows/deploy-web.yml` is gated on `VERCEL_*` secrets being present so forks don't get noisy failures.
-- **API → any Node host** via `apps/api/Dockerfile` (Fly.io, Railway, Render). Set `DATABASE_URL` to a Neon/Supabase URL and run `pnpm --filter @codecraft/api db:migrate` once. Without `DATABASE_URL`, the API falls back to an in-memory repo (great for local dev and ephemeral previews).
-- **Continuous integration** (`.github/workflows/ci.yml`) runs typecheck, content validation, format check, and full builds on every push to `main` and on PRs.
+**Step-by-step guide:** [docs/DEPLOY.md](docs/DEPLOY.md)
+
+- **Web → Vercel** — Root Directory `apps/web`, enable monorepo “include files outside root”. `apps/web/vercel.json` is preconfigured.
+- **API → Render** (optional) — `render.yaml` blueprint + `apps/api/Dockerfile`. Postgres on Neon; run `pnpm --filter @codecraft/api db:migrate` once.
+- **CI** — `.github/workflows/ci.yml` on every PR; `.github/workflows/deploy-web.yml` auto-deploys when `VERCEL_*` secrets are set.
 
 ## License
 

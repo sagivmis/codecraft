@@ -53,6 +53,9 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: apps/web
 
+      - name: Generate PWA icons
+        run: pnpm --filter '@codecraft/web' icons
+
       - name: Build for production
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
