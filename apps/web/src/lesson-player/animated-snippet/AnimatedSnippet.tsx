@@ -177,9 +177,11 @@ function HighlightRect({ highlight }: { highlight: HighlightLike }) {
   const top = `calc(${startLine - 1} * 1.6em)`;
   const height = `calc(${endLine - startLine + 1} * 1.6em)`;
 
-  /* The line-number gutter is 1.5rem (6 * 0.25rem) wide with a 1rem right
-   * padding. We push highlights to the right of the gutter. */
-  const gutter = 'calc(1.5rem + 1rem)';
+  /* The line-number gutter is exactly w-6 (1.5rem). The `pr-4` on the
+   * number span is padding INSIDE that 1.5rem, not extra space — code
+   * text starts at the 1.5rem mark. Off-by-1rem here is what shifted
+   * the highlight ~2 chars to the right of where it should be. */
+  const gutter = '1.5rem';
   const left = startColumn !== undefined ? `calc(${gutter} + ${startColumn - 1} * 1ch)` : gutter;
   const width =
     startColumn !== undefined && endColumn !== undefined

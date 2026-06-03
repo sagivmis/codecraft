@@ -177,6 +177,13 @@ function WhatPrintsView({
   const [value, setValue] = useState(answer?.value ?? '');
   const disabled = !!answer;
 
+  /* Pick the right soft keyboard layout based on the expected output:
+   *   42          -> numeric pad
+   *   3.14, -1.5  -> decimal pad
+   *   hello       -> regular alphabetic keyboard
+   * inferred from `expected` so authors don't have to think about it. */
+  const inputMode = inferInputMode(question.expected);
+
   return (
     <div className="flex flex-col gap-3">
       <p className="text-lg font-medium">{question.prompt}</p>
@@ -196,7 +203,7 @@ function WhatPrintsView({
         <input
           id="what-prints-input"
           type="text"
-          inputMode="text"
+          inputMode={inputMode}
           autoComplete="off"
           autoCapitalize="off"
           spellCheck={false}
@@ -233,6 +240,26 @@ function WhatPrintsView({
       </AnimatePresence>
     </div>
   );
+}
+
+/**
+ * Pick the right `inputMode` for a `whatPrints` answer based on the expected
+ * output, so mobile users get the numeric pad when the answer is a number.
+ *
+ *   "42"     -> 'numeric' (integer pad, no decimal)
+ *   "-3"     -> 'numeric' (sign is reachable from the numeric pad)
+ *   "3.14"   -> 'decimal' (decimal pad)
+ *   "hello"  -> 'text'    (regular keyboard)
+ *
+ * We intentionally use `inputMode` rather than `<input type="number">` so the
+ * student can still type "-" and partial values without the browser rejecting
+ * them, and so the input field stays consistent across answer types.
+ */
+function inferInputMode(expected: string): React.HTMLAttributes<HTMLInputElement>['inputMode'] {
+  const trimmed = expected.trim();
+  if (/^-?\d+$/.test(trimmed)) return 'numeric';
+  if (/^-?\d+\.\d+$/.test(trimmed)) return 'decimal';
+  return 'text';
 }
 
 function FeedbackBox({
