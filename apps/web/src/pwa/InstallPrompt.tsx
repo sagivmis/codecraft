@@ -4,6 +4,8 @@ import { Button, cn } from '@codecraft/ui';
 
 import { PWA_INSTALL_DISMISS_COOLDOWN_DAYS, STORAGE_KEYS } from '@constants';
 
+import { isStandalonePwa } from './device.js';
+
 const DISMISS_KEY = STORAGE_KEYS.PWA_INSTALL_DISMISSED;
 
 /**
@@ -22,7 +24,7 @@ interface BeforeInstallPromptEvent extends Event {
  * - Snoozes for a week if the student explicitly dismisses.
  * - iOS Safari doesn't fire the event, so we render a small "Add to
  *   Home Screen" hint when running standalone is supported but the event
- *   never arrives. (Intentionally subtle; full iOS guide can come later.)
+ *   never arrives — see `IosInstallCoach` for the full iOS flow.
  */
 export function InstallPrompt() {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
@@ -30,7 +32,7 @@ export function InstallPrompt() {
 
   useEffect(() => {
     /* Already installed — show nothing. */
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    if (isStandalonePwa()) {
       setInstalled(true);
       return;
     }

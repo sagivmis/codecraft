@@ -21,6 +21,7 @@ export const STORAGE_KEYS = {
   STREAK: 'codecraft:engagement:streak:v1',
   XP: 'codecraft:engagement:xp:v1',
   PWA_INSTALL_DISMISSED: 'codecraft:pwa-install:dismissed-at',
+  IOS_INSTALL_DISMISSED: 'codecraft:ios-install-coach:dismissed-at',
 } as const;
 
 // ----------------------------------------------------------------------------

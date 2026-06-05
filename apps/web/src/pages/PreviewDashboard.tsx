@@ -39,7 +39,11 @@ export function PreviewDashboard() {
 
   const resetAll = useCallback(() => {
     const keys = Object.keys(window.localStorage).filter(
-      (k) => k.startsWith('codecraft.progress.') || k.startsWith('codecraft:engagement:'),
+      (k) =>
+        k.startsWith('codecraft.progress.') ||
+        k.startsWith('codecraft:engagement:') ||
+        k.startsWith('codecraft:pwa-') ||
+        k.startsWith('codecraft:ios-install'),
     );
     for (const k of keys) window.localStorage.removeItem(k);
     setBump((b) => b + 1);

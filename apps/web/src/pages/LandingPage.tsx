@@ -7,6 +7,8 @@ import { getAllLessons } from '@codecraft/content';
 import { OnboardingModal } from './onboarding/OnboardingModal.js';
 import { useOnboarding } from './onboarding/useOnboarding.js';
 import { StreakBanner, StreakChip, XpChip } from '../engagement/index.js';
+import { ContinueLearning } from '../lesson-player/ContinueLearning.js';
+import { useContinueLesson } from '../lesson-player/useContinueLesson.js';
 
 const HERO_SNIPPET = `const score = 0;
 const goal = 5;
@@ -31,6 +33,7 @@ export function LandingPage() {
 
   const lessons = getAllLessons();
   const firstLesson = lessons[0];
+  const continueLesson = useContinueLesson(theme);
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-5xl flex-col gap-12 px-4 py-10 md:py-16">
@@ -85,10 +88,14 @@ export function LandingPage() {
             makes real typing viable on a phone.
           </p>
           <div className="flex flex-wrap gap-3">
-            {firstLesson && (
-              <Link to={`/lessons/${firstLesson.id}`}>
-                <Button size="lg">Start the first lesson</Button>
-              </Link>
+            {continueLesson ? (
+              <ContinueLearning continueLesson={continueLesson} variant="hero" />
+            ) : (
+              firstLesson && (
+                <Link to={`/lessons/${firstLesson.id}`}>
+                  <Button size="lg">Start the first lesson</Button>
+                </Link>
+              )
             )}
             <Link to="/lessons">
               <Button size="lg" variant="secondary">

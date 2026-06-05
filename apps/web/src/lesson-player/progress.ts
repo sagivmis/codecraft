@@ -17,7 +17,8 @@ function storageKey(lessonId: string): string {
   return `${STORAGE_KEY_PREFIX}${lessonId}`;
 }
 
-function readFromStorage(lessonId: string): LessonProgress | null {
+/** Read persisted progress for one lesson (SSR-safe). */
+export function readLessonProgress(lessonId: string): LessonProgress | null {
   if (typeof window === 'undefined') return null;
   try {
     const raw = window.localStorage.getItem(storageKey(lessonId));
@@ -51,11 +52,11 @@ function writeToStorage(progress: LessonProgress): void {
 
 export function useLessonProgress(lessonId: string) {
   const [progress, setProgress] = useState<LessonProgress>(
-    () => readFromStorage(lessonId) ?? makeInitialProgress(lessonId),
+    () => readLessonProgress(lessonId) ?? makeInitialProgress(lessonId),
   );
 
   useEffect(() => {
-    setProgress(readFromStorage(lessonId) ?? makeInitialProgress(lessonId));
+    setProgress(readLessonProgress(lessonId) ?? makeInitialProgress(lessonId));
   }, [lessonId]);
 
   const persist = useCallback((next: LessonProgress) => {
@@ -108,4 +109,12 @@ export function firstIncompleteStage(progress: LessonProgress): StageKey {
     if (progress.stages[key].status !== 'completed') return key;
   }
   return STAGE_KEYS[0];
+}
+
+export function hasLessonStarted(progress: LessonProgress): boolean {
+  return STAGE_KEYS.some((k) => progress.stages[k].status !== 'not-started');
+}
+
+export function isLessonFullyComplete(progress: LessonProgress): boolean {
+  return STAGE_KEYS.every((k) => progress.stages[k].status === 'completed');
 }
